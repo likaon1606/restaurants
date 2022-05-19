@@ -59,17 +59,23 @@ const deleteRestaurant = catchAsync(async (req, res, next) => {
 //REVIEWS
 const createReview = catchAsync(async (req, res, next) => {
   const { comment, rating } = req.body;
-  const { restaurantId } = req.params;
+  const { id } = req.params;
   const { sessionUser } = req;
 
   const newReview = await Review.create({
     comment,
     rating,
-    restaurantId,
+    restaurantId: id,
     userId: sessionUser.id,
   });
 
   res.status(201).json({ newReview });
+});
+
+const getReviewById = catchAsync(async (req, res, next) => {
+  const { text } = req;
+
+  res.status(200).json({ text });
 });
 
 const updateReview = catchAsync(async (req, res, next) => {
@@ -100,4 +106,5 @@ module.exports = {
   createReview,
   updateReview,
   deleteReview,
+  getReviewById,
 };

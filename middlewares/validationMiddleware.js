@@ -13,8 +13,14 @@ const createUserValidations = [
     .withMessage("Password must be at least a 8 characters long"),
 ];
 
-const createCommentValidation = [
-  body("text").notEmpty().withMessage("Comment cannot empty"),
+const createRestaurantValidations = [
+  body("name").notEmpty().withMessage("Name cannot be empty"),
+  body("address").notEmpty().withMessage("Must be a valid email"),
+  body("rating")
+    .notEmpty()
+    .withMessage("Your rating is very important for us")
+    .isNumeric()
+    .withMessage("1 stars to 5 stars"),
 ];
 
 const checkValidations = (req, res, next) => {
@@ -32,6 +38,6 @@ const checkValidations = (req, res, next) => {
 
 module.exports = {
   createUserValidations,
-  createCommentValidation,
   checkValidations,
+  createRestaurantValidations,
 };

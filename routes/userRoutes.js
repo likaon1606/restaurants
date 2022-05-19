@@ -37,14 +37,15 @@ router
 
 router.route("/login").post(login);
 
-router.route("/").get(getAllUsers);
+router.use(protectToken);
+router.route("/").get(protectAdmin, getAllUsers);
 
-router.route("/orders").get(orderExists, getAllOrders);
-//router.use(protectToken);
+router.route("/orders").get(getAllOrders);
+
 router
   .route("/:id")
-  .patch(userExists, updateUser)
-  .delete(userExists, deactivatedUser);
+  .patch(protectUserOwner, userExists, updateUser)
+  .delete(protectUserOwner, userExists, deactivatedUser);
 
 router.route("/orders/:id").get(orderExists, getOrderById);
 

@@ -13,6 +13,7 @@ const { userRouter } = require("./routes/userRoutes");
 const { restaurantsRouter } = require("./routes/restaurantsRoutes");
 const { mealsRouter } = require("./routes/mealsRoutes");
 const { ordersRouter } = require("./routes/ordersRoutes");
+
 const app = express();
 
 app.use(cors());

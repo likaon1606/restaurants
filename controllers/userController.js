@@ -6,6 +6,8 @@ const dotenv = require("dotenv");
 //models
 const { User } = require("../models/userModel");
 const { Order } = require("../models/ordersModel");
+const { Meal } = require("../models/mealsModel");
+const { Restaurant } = require("../models/restaurantsModel");
 
 //utils
 const { catchAsync } = require("../utils/catchAsync");
@@ -73,16 +75,33 @@ const deactivatedUser = catchAsync(async (req, res, next) => {
 });
 
 const getAllOrders = catchAsync(async (req, res, next) => {
-  const orders = await Order.findAll({});
+  const orders = await Order.findAll({
+    include: [
+      {
+        model: Meal,
+        attributes: ["name"],
+        include: [{ model: Restaurant, attributes: ["name"] }],
+      },
+    ],
+  });
 
   res.status(200).json({ orders });
 });
 
 const getOrderById = catchAsync(async (req, res, next) => {
   const { order } = req;
-  // const { id } = req.params;
 
-  res.status(200).json({ order });
+  const orderDetail = await Order.findOne({
+    include: [
+      {
+        model: Meal,
+        attributes: ["name"],
+        include: [{ model: Restaurant, attributes: ["name"] }],
+      },
+    ],
+  });
+
+  res.status(200).json({ order, orderDetail });
 });
 
 module.exports = {
